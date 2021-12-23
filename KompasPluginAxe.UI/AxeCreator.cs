@@ -40,6 +40,7 @@ namespace KompasPluginAxe.UI
             CreateBladeSlice();
             CreateBladeSide();
             CreateButt();
+            CreateHandleBaseline();
         }
 
         private void CreateBladeSlice()
@@ -113,8 +114,6 @@ namespace KompasPluginAxe.UI
             definition.EndSketchEditing();
         }
 
-        //TODO: Заменить бока с 3PointArc на Nurbs
-        //TODO: Привести названия к единому стилю
         private void CreateButt()
         {
             var sketch = _root.CreateSketch(Plane.Yz);
@@ -217,12 +216,6 @@ namespace KompasPluginAxe.UI
                 X = eyeTopPointRightLine.X,
                 Y = eyeTopLineRight.Y
             };
-            //
-            // var eyeTopRight = new Point2D()
-            // {
-            //     X = -(Axe.SpaceBelowEye + Axe.Slice1Height),
-            //     Y = Axe.Slice1Width * 0.5
-            // };
 
             var eyeMidLeft = new Point2D()
             {
@@ -241,23 +234,72 @@ namespace KompasPluginAxe.UI
                 X = -Axe.SpaceBelowEye,
                 Y = 0
             };
+
+            Point2D[] eyeBezier =
+            {
+                eyeMidLeft,
+                eyeBottom,
+                eyeMidRight
+            };
             
+            Point2D[] leftBezier =
+            {
+                topPointLeftLine,
+                midPointLeft,
+                bottomPointLeft
+            };
+            
+            Point2D[] rightBezier =
+            {
+                topPointRightLine,
+                midPointRight,
+                bottomPointRight
+            };
+
             editable.CreateLineSegment(leftPointTopLine, rightPointTopLine, LineStyle.Main);
-            editable.CreateLineSegment(bottomPointLeft, bottomPointLeft, LineStyle.Main);
-            editable.CreateArcByPoint(leftCenterRadiusPoint, Axe.ButtRadius, leftPointTopLine, topPointLeftLine,
+            editable.CreateLineSegment(bottomPointLeft, bottomPointRight, LineStyle.Main);
+            editable.CreateArcByPoint(leftCenterRadiusPoint, Axe.ButtRadius,
+                leftPointTopLine, topPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
-            editable.CreateArcByPoint(rightCenterRadiusPoint, Axe.ButtRadius, rightPointTopLine, topPointRightLine,
+            editable.CreateArcByPoint(rightCenterRadiusPoint, Axe.ButtRadius,
+                rightPointTopLine, topPointRightLine,
                 Direction.Clockwise, LineStyle.Main);
-            editable.Create3PointArc(topPointLeftLine, midPointLeft, bottomPointLeft, LineStyle.Main);
-            editable.Create3PointArc(topPointRightLine, midPointRight, bottomPointRight, LineStyle.Main);
+
+            editable.CreateBezier(_kompas, leftBezier, LineStyle.Main);
+            editable.CreateBezier(_kompas, rightBezier, LineStyle.Main);
+            
             editable.CreateLineSegment(eyeTopLineLeft, eyeTopLineRight, LineStyle.Main);
             editable.CreateLineSegment(eyeTopPointLeftLine, eyeMidLeft, LineStyle.Main);
             editable.CreateLineSegment(eyeTopPointRightLine, eyeMidRight, LineStyle.Main);
-            editable.CreateArcByPoint(leftEyeRadiusPoint, Axe.SliceRadius, eyeTopLineLeft, eyeTopPointLeftLine,
+            editable.CreateArcByPoint(leftEyeRadiusPoint, Axe.SliceRadius,
+                eyeTopLineLeft, eyeTopPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
-            editable.CreateArcByPoint(rightEyeRadiusPoint, Axe.SliceRadius, eyeTopLineRight, eyeTopPointRightLine,
+            editable.CreateArcByPoint(rightEyeRadiusPoint, Axe.SliceRadius,
+                eyeTopLineRight, eyeTopPointRightLine,
                 Direction.Clockwise, LineStyle.Main);
-            //Здесь должен быть сплайн по трём точкам
+
+            editable.CreateBezier(_kompas, eyeBezier, LineStyle.Main);
+            
+            definition.EndSketchEditing();
+        }
+
+        private void CreateHandleBaseline()
+        {
+            var sketch = _root.CreateSketch(Plane.Xz);
+            var definition = sketch.GetSketchDefinition();
+            var editable = definition.EditSketch();
+
+            Point2D[] bezier =
+            {
+                Axe.Slice3Point,
+                Axe.Slice4Point,
+                Axe.Slice5Point,
+                Axe.Slice6Point
+            };
+
+            
+            editable.CreateLineSegment(Axe.Slice1Point, Axe.Slice3Point,LineStyle.Main);
+            editable.CreateBezier(_kompas, bezier, LineStyle.Main);
             
             definition.EndSketchEditing();
         }

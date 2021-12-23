@@ -39,58 +39,10 @@
           <HintPath>..\packages\DotNetProjects.SVGImage.4.1.97\lib\net48\DotNetProjects.SVGImage.dll</HintPath>
           <Private>True</Private>
         </Reference>
-        <Reference Include="Fizzler, Version=1.2.0.0, Culture=neutral, PublicKeyToken=4ebff4844e382110">
-          <HintPath>..\packages\Fizzler.1.2.0\lib\netstandard2.0\Fizzler.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="HarfBuzzSharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-          <HintPath>..\packages\HarfBuzzSharp.2.6.1.7\lib\net462\HarfBuzzSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="Interop.Kompas6API5, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Lib\Interop.Kompas6API5.dll</HintPath>
         </Reference>
         <Reference Include="mscorlib" />
-        <Reference Include="OpenTK, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
-          <HintPath>..\packages\OpenTK.3.1.0\lib\net20\OpenTK.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="OpenTK.GLControl, Version=3.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4">
-          <HintPath>..\packages\OpenTK.GLControl.3.1.0\lib\net20\OpenTK.GLControl.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="ShimSkiaSharp, Version=0.5.10.0, Culture=neutral, PublicKeyToken=dafe96fe6c845a74">
-          <HintPath>..\packages\ShimSkiaSharp.0.5.10\lib\net461\ShimSkiaSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="SkiaSharp, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-          <HintPath>..\packages\SkiaSharp.2.80.3\lib\net462\SkiaSharp.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="SkiaSharp.HarfBuzz, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-          <HintPath>..\packages\SkiaSharp.HarfBuzz.2.80.2\lib\net462\SkiaSharp.HarfBuzz.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="SkiaSharp.Views.Desktop.Common, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-          <HintPath>..\packages\SkiaSharp.Views.Desktop.Common.2.80.3\lib\net462\SkiaSharp.Views.Desktop.Common.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="SkiaSharp.Views.WPF, Version=2.80.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756">
-          <HintPath>..\packages\SkiaSharp.Views.WPF.2.80.3\lib\net462\SkiaSharp.Views.WPF.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="Svg.Custom, Version=0.5.10.0, Culture=neutral, PublicKeyToken=dafe96fe6c845a74">
-          <HintPath>..\packages\Svg.Custom.0.5.10\lib\net461\Svg.Custom.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="Svg.Model, Version=0.5.10.0, Culture=neutral, PublicKeyToken=dafe96fe6c845a74">
-          <HintPath>..\packages\Svg.Model.0.5.10\lib\net461\Svg.Model.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
-        <Reference Include="Svg.Skia, Version=0.5.10.0, Culture=neutral, PublicKeyToken=dafe96fe6c845a74">
-          <HintPath>..\packages\Svg.Skia.0.5.10\lib\net461\Svg.Skia.dll</HintPath>
-          <Private>True</Private>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
           <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
@@ -167,7 +119,6 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
-        <None Include="OpenTK.dll.config" />
         <None Include="packages.config" />
     </ItemGroup>
     <ItemGroup>
@@ -182,13 +133,4 @@
       </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-    <Import Project="..\packages\SkiaSharp.2.80.3\build\net462\SkiaSharp.targets" Condition="Exists('..\packages\SkiaSharp.2.80.3\build\net462\SkiaSharp.targets')" />
-    <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-      <PropertyGroup>
-        <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-      </PropertyGroup>
-      <Error Condition="!Exists('..\packages\SkiaSharp.2.80.3\build\net462\SkiaSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SkiaSharp.2.80.3\build\net462\SkiaSharp.targets'))" />
-      <Error Condition="!Exists('..\packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets'))" />
-    </Target>
-    <Import Project="..\packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets" Condition="Exists('..\packages\HarfBuzzSharp.2.6.1.7\build\net462\HarfBuzzSharp.targets')" />
 </Project>

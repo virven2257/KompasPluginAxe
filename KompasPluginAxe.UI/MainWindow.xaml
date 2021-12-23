@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:KompasPluginAxe.UI"
         xmlns:svg="clr-namespace:SVGImage.SVG;assembly=DotNetProjects.SVGImage"
         mc:Ignorable="d"
-        Title="Генератор модели топора" Height="520" Width="500">
+        Title="Генератор модели топора" Height="520" Width="500"
+        MinHeight="465" MinWidth="330">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>

@@ -245,6 +245,31 @@ namespace KompasPluginAxe.Core
                 (short)direction, (int)style);
             return document;
         }
+
+        public static ksDocument2D CreateBezier(this ksDocument2D document,
+            KompasObject kompas,
+            Point2D[] points,
+            LineStyle style,
+            bool closed = false)
+        {
+            var isClosed = (short)(closed ? 1 : 0);
+
+            document.ksBezier(isClosed, (int)style);
+
+            ksBezierPointParam pointParam =
+                (ksBezierPointParam)kompas.GetParamStruct(
+                    (short)Kompas6Constants.StructType2DEnum.ko_BezierPointParam);
+
+            foreach (var point in points)
+            {
+                pointParam.x = point.X;
+                pointParam.y = point.Y;
+                document.ksBezierPoint(pointParam);
+            }
+
+            document.ksEndObj();
+            return document;
+        }
         
         // public static void RoundRightAngleSimplified(
         //      Point2D start,

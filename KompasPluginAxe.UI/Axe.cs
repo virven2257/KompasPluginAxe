@@ -78,42 +78,42 @@ namespace KompasPluginAxe.UI
             FullLength + HandleTip - (BladeLength - ButtLength)/2;
 
         public double SpaceBetweenSlices =>
-            (FullLength - (FullLength / 2.5) / 2);
+            (FullLength - (FullLength / 2.5)) / 2;
 
         public Point2D Slice1Point => new Point2D()
         {
             X = -(ButtLength/2 + HandleTip),
-            Y = ButtHeight - SpaceAboveEye
+            Y = -(ButtHeight - SpaceAboveEye)
         };
 
         public Point2D Slice2Point => new Point2D()
         {
             X = ButtLength / 2 + 10,
-            Y = ButtHeight - SpaceAboveEye
+            Y = -(ButtHeight - SpaceAboveEye)
         };
 
         public Point2D Slice3Point => new Point2D()
         {
             X = (HandleLength / 3.5) + Slice1Point.X,
-            Y = ButtHeight - SpaceAboveEye
+            Y = Slice2Point.Y
         };
 
         public Point2D Slice4Point => new Point2D()
         {
             X = (HandleLength / 2.5) + Slice1Point.X,
-            Y = Slice3Point.Y - 12
+            Y = Slice3Point.Y + 12
         };
 
         public Point2D Slice5Point => new Point2D()
         {
             X = Slice4Point.X + SpaceBetweenSlices,
-            Y = Slice4Point.Y - 12
+            Y = Slice4Point.Y + 12
         };
 
         public Point2D Slice6Point => new Point2D()
         {
             X = Slice5Point.X + SpaceBetweenSlices,
-            Y = Slice5Point.Y - 28.5
+            Y = Slice5Point.Y + 28.5
         };
 
         public double SliceRadius => 6;
