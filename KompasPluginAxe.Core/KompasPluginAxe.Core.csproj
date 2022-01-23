@@ -44,6 +44,9 @@
         <Reference Include="Interop.Kompas6Constants3D, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Lib\Interop.Kompas6Constants3D.dll</HintPath>
         </Reference>
+        <Reference Include="Interop.KompasAPI7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\Lib\Interop.KompasAPI7.dll</HintPath>
+        </Reference>
         <Reference Include="Kompas6API7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\..\..\Kompas\SDK\C#\Automation\KompasAPI7.dll</HintPath>
         </Reference>
@@ -53,6 +56,7 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Enums\CutDirection.cs" />
         <Compile Include="Enums\Direction.cs" />
         <Compile Include="Enums\ExtrusionDirection.cs" />
         <Compile Include="Enums\LineStyle.cs" />

@@ -126,6 +126,7 @@ namespace KompasPluginAxe.UI
             editable.CreateLineSegment(topPointRight, bottomPointRight, LineStyle.Main);
             editable.CreateLineSegment(bottomPointLeft, bottomPointRight, LineStyle.Main);
             definition.EndSketchEditing();
+            sketch.CutBySketch(_root, CutDirection.Reverse);
             
         }
 

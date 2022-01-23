@@ -1,6 +1,6 @@
 ﻿using System;
 using Kompas6API5;
-using Kompas6API7;
+using KompasAPI7;
 using Kompas6Constants;
 using Kompas6Constants3D;
 using KompasPluginAxe.Core.Enums;
@@ -132,9 +132,9 @@ namespace KompasPluginAxe.Core
         {
             var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_point3D);
             entity.Create();
-
+        
             var point3D = (IPoint3D)kompas.TransferInterface(entity, (int)ksAPITypeEnum.ksAPI7Dual, 0);
-
+        
             point3D.X = point.X;
             point3D.Y = point.Y;
             point3D.Z = point.Z;
@@ -147,7 +147,7 @@ namespace KompasPluginAxe.Core
         {
             var edgeCollection = (ksEntityCollection)part.EntityCollection((short)Obj3dType.o3d_edge);
             edgeCollection.SelectByPoint(linePoint.X, linePoint.Y, linePoint.Z);
-
+        
             var targetPointEntity = CreatePoint3D(part, targetPoint, kompas);
             
             var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planePerpendicular);

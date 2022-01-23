@@ -50,5 +50,24 @@ namespace KompasPluginAxe.Core
             extrusionEntity.Create();
             return extrusionEntity;
         }
+
+        /// <summary>
+        /// Создаёт сечение по эскизу
+        /// </summary>
+        /// <param name="sketch">Эскиз</param>
+        /// <param name="part">Часть</param>
+        /// <param name="direction">Направление сечения</param>
+        /// <returns></returns>
+        public static ksEntity CutBySketch(this ksEntity sketch,
+            ksPart part, CutDirection direction)
+        {
+            var cutEntity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_cutBySketch);
+            var cutDefinition = (ksCutBySketchDefinition)cutEntity.GetDefinition();
+            cutDefinition.SetSketch(sketch);
+            cutDefinition.direction = (direction == CutDirection.Direct);
+            cutDefinition.chooseType = 1;
+            cutEntity.Create();
+            return cutEntity;
+        }
     }
 }
