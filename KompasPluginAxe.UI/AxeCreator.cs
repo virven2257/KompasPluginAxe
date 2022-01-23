@@ -22,6 +22,9 @@ namespace KompasPluginAxe.UI
         /// </summary>
         private ksDocument3D _document;
 
+        /// <summary>
+        /// Модель топора
+        /// </summary>
         public Axe Axe { get; set; } = new Axe();      
         
         /// <summary>
@@ -35,6 +38,9 @@ namespace KompasPluginAxe.UI
             _root = _document.GetRootPart();
         }
 
+        /// <summary>
+        /// Последовательное построение топора
+        /// </summary>
         public void CreateAxe()
         {
             CreateBladeSlice();
@@ -43,6 +49,9 @@ namespace KompasPluginAxe.UI
             CreateHandleBaseline();
         }
 
+        /// <summary>
+        /// Строит эскиз среза рубящей части топора
+        /// </summary>
         private void CreateBladeSlice()
         {
             var sketch = _root.CreateSketch(Plane.Yz);
@@ -79,8 +88,13 @@ namespace KompasPluginAxe.UI
             editable.CreateLineSegment(midPointLeft, tip, LineStyle.Main);
             editable.CreateLineSegment(midPointRight, tip, LineStyle.Main);
             definition.EndSketchEditing();
+            
+            sketch.Extrude(_root, ExtrusionDirection.MiddlePlane,Axe.BladeLength);
         }
 
+        /// <summary>
+        /// Строит эскиз режущей части топора сбоку
+        /// </summary>
         private void CreateBladeSide()
         {
             var sketch = _root.CreateSketch(Plane.Xz);
@@ -112,8 +126,12 @@ namespace KompasPluginAxe.UI
             editable.CreateLineSegment(topPointRight, bottomPointRight, LineStyle.Main);
             editable.CreateLineSegment(bottomPointLeft, bottomPointRight, LineStyle.Main);
             definition.EndSketchEditing();
+            
         }
 
+        /// <summary>
+        ///  Строит основание топора
+        /// </summary>
         private void CreateButt()
         {
             var sketch = _root.CreateSketch(Plane.Yz);
@@ -281,8 +299,13 @@ namespace KompasPluginAxe.UI
             editable.CreateBezier(_kompas, eyeBezier, LineStyle.Main);
             
             definition.EndSketchEditing();
+
+            sketch.Extrude(_root, ExtrusionDirection.MiddlePlane,Axe.ButtLength);
         }
 
+         /// <summary>
+         /// Строит основную линию топорища
+         /// </summary>
         private void CreateHandleBaseline()
         {
             var sketch = _root.CreateSketch(Plane.Xz);
@@ -300,7 +323,13 @@ namespace KompasPluginAxe.UI
             
             editable.CreateLineSegment(Axe.Slice1Point, Axe.Slice3Point,LineStyle.Main);
             editable.CreateBezier(_kompas, bezier, LineStyle.Main);
-            
+            var point3d1 = new Point3D()
+            {
+                X = Axe.Slice1Point.X,
+                Y = Axe.Slice1Point.Y,
+                Z = 0
+            };
+
             definition.EndSketchEditing();
         }
     }

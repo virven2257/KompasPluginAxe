@@ -1,8 +1,11 @@
 ﻿using System;
 using Kompas6API5;
+using Kompas6API7;
+using Kompas6Constants;
 using Kompas6Constants3D;
 using KompasPluginAxe.Core.Enums;
 using KompasPluginAxe.Core.Models;
+using Point3D = KompasPluginAxe.Core.Models.Point3D;
 
 namespace KompasPluginAxe.Core
 {
@@ -125,29 +128,35 @@ namespace KompasPluginAxe.Core
             return sketch;
         }
 
-        internal static ksEntity CreateParallelPlane(double x, double y, double z, double offset,
-            PlaneOffsetDirection direction, ksPart part)
+        public static ksEntity CreatePoint3D(this ksPart part, Point3D point, KompasObject kompas)
         {
-            var faceCollection = (ksEntityCollection)part.EntityCollection((short)Obj3dType.o3d_face);
-            faceCollection.SelectByPoint(x, y, z);
-            var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planeOffset);
-            var definition = (ksPlaneOffsetDefinition)entity.GetDefinition();
-            definition.direction = direction == PlaneOffsetDirection.Direct;
-            definition.offset = offset;
-            definition.SetPlane(faceCollection.First());
+            var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_point3D);
+            entity.Create();
+
+            var point3D = (IPoint3D)kompas.TransferInterface(entity, (int)ksAPITypeEnum.ksAPI7Dual, 0);
+
+            point3D.X = point.X;
+            point3D.Y = point.Y;
+            point3D.Z = point.Z;
+            point3D.Update();
+            return entity;
+        }
+        
+        public static ksEntity CreatePerpendicularPlane(this ksPart part, Point3D linePoint, Point3D targetPoint,
+            KompasObject kompas)
+        {
+            var edgeCollection = (ksEntityCollection)part.EntityCollection((short)Obj3dType.o3d_edge);
+            edgeCollection.SelectByPoint(linePoint.X, linePoint.Y, linePoint.Z);
+
+            var targetPointEntity = CreatePoint3D(part, targetPoint, kompas);
+            
+            var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planePerpendicular);
+            var definition = (ksPlanePerpendicularDefinition)entity.GetDefinition();
+            definition.SetPoint(targetPointEntity);
+            definition.SetEdge(edgeCollection.First());
             entity.Create();
             return entity;
         }
-
-
-        // public static ksEntity CreatePerpendicularPlane(this ksPart part, Point3D point, double offset,
-        //     PlaneOffsetDirection direction)
-        // {
-        //     var faceCollection = (ksEntityCollection)part.EntityCollection((short)Obj3dType.o3d_face);
-        //     faceCollection.SelectByPoint(point.X, point.Y, point.Z);
-        //     var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_planePerpendicular);
-        //     entity.
-        // }
 
         /// <summary>
         /// Открывает редактирование эскиза
@@ -184,37 +193,7 @@ namespace KompasPluginAxe.Core
                 end.X, end.Y, (int)style);
             return document;
         }
-
-        /// <summary>
-        /// Создаёт прямую
-        /// </summary>
-        /// <param name="document">2D-документ (эскиз)</param>
-        /// <param name="point">Точка</param>
-        /// <param name="angle">Угол</param>
-        /// <returns></returns>
-        public static ksDocument2D CreateLine(this ksDocument2D document,
-            Point2D point, double angle)
-        {
-            document.ksLine(point.X, point.Y, angle);
-            return document;
-        }
-
-        /// <summary>
-        /// Создаёт дугу по трём точкам
-        /// </summary>
-        /// <param name="document">2D-документ (эскиз)</param>
-        /// <param name="start">Первая точка</param>
-        /// <param name="mid">Вторая точка</param>
-        /// <param name="end">Третья точка</param>
-        /// <param name="style">Стиль линии</param>
-        public static ksDocument2D Create3PointArc(this ksDocument2D document,
-            Point2D start, Point2D mid, Point2D end, LineStyle style)
-        {
-            document.ksArcBy3Points(start.X, start.Y,
-                mid.X, mid.Y, end.X, end.Y, (int)style);
-            return document;
-        }
-
+        
         // public static ksDocument2D CreateArcByAngle(this ksDocument2D document,
         //     Point2D center, double startAngle, double endAngle, LineStyle style)
         // {

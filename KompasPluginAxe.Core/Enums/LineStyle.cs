@@ -6,7 +6,7 @@
     public enum LineStyle
     {
         Main = 1,
-        Thin = 2, 
+        Thin, 
         Axial,
         Dashed,
         Clipping,

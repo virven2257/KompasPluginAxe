@@ -12,6 +12,7 @@ namespace KompasPluginAxe.UI
         
         #region Constants
         
+        //Константы
         private const double MinFullHeight = 145;
         private const double MaxFullHeight = 185;
         private const double MinFullLength = 400;
@@ -27,6 +28,7 @@ namespace KompasPluginAxe.UI
 
         #region  Editable
         
+        //Представленные в окне значения
         private double _fullHeight = 160;
         private double _fullLength = 439;
         private double _bladeLength = 120;
@@ -41,6 +43,7 @@ namespace KompasPluginAxe.UI
 
         #region Readonly Properties
         
+        //Топор (основание)
         #region Butt
 
         public double ButtHeight => 72;
@@ -57,6 +60,7 @@ namespace KompasPluginAxe.UI
         
         #endregion
 
+        //Лезвие топора
         #region Blade
 
         public double BladeWidth = 9;
@@ -70,6 +74,7 @@ namespace KompasPluginAxe.UI
 
         #endregion
 
+        //Рукоять
         #region Handle
 
         public double HandleTip => 3;
@@ -80,6 +85,9 @@ namespace KompasPluginAxe.UI
         public double SpaceBetweenSlices =>
             (FullLength - (FullLength / 2.5)) / 2;
 
+        public double HeightKnobSpaces =>
+            KnobHeight / 4;
+        
         public Point2D Slice1Point => new Point2D()
         {
             X = -(ButtLength/2 + HandleTip),
@@ -122,6 +130,7 @@ namespace KompasPluginAxe.UI
         
         #endregion
         
+        //Срезы рукояти
         #region Slice 1 & 2/Eye
 
         public double Slice1Width => SliceWidth;
@@ -173,6 +182,11 @@ namespace KompasPluginAxe.UI
 
         #endregion
         
+        /// <summary>
+        /// Высота всего топора
+        /// </summary>
+        /// <exception cref="ArgumentException">Недопустимое значение
+        /// по MinFullHeight/MaxFullHeight или значение не соответствует зависимому параметру</exception>
         public double FullHeight
         {
             get => _fullHeight;
@@ -187,6 +201,11 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Длина всего топора
+        /// </summary>
+        /// <exception cref="ArgumentException">Недопустимое значение
+        /// по MinFullLength/MaxFullLength или значение не соответствует зависимому параметру</exception>
         public double FullLength
         {
             get => _fullLength;
@@ -201,6 +220,11 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Длина лезвия
+        /// </summary>
+        /// <exception cref="ArgumentException">Недопустимое значение
+        /// по MinBladeLength/MaxBladeLength или значение не соответствует зависимому параметру</exception>
         public double BladeLength
         {
             get => _bladeLength;
@@ -215,6 +239,10 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Длина основания 
+        /// </summary>
+        /// <exception cref="ArgumentException">Недопустимое значение по min/max</exception>
         public double ButtLength
         {
             get => _buttLength;
@@ -227,6 +255,12 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        //TODO: значение ни на что не влияет, исправить
+        /// <summary>
+        /// Высота края топорища
+        /// </summary>
+        /// <exception cref="ArgumentException">Недопустимое значение
+        /// по Min/Max или значение не соответствует зависимому параметру</exception>
         public double KnobHeight
         {
             get => _knobHeight;
@@ -241,16 +275,37 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Проверяет, находится ли значение в заданном диапазоне 
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="value"></param>
+        /// <param name="max"></param>
+        /// <returns>true -- недопустимое значение
+        /// false -- допустимое</returns>
         private bool CheckValue(double min, double value, double max)
         {
             return ((value > max) || (value < min));
         }
 
+        /// <summary>
+        /// Проверяет, соответствут ли значения заданной формуле
+        /// </summary>
+        /// <param name="fullLength">Длина всего изделия</param>
+        /// <param name="bladeLength">Длина лезвия</param>
+        /// <returns>true -- недопустимое значение
+        /// false -- допустимое</returns>
         private bool CheckBladeLength(double fullLength, double bladeLength)
         {
             return (bladeLength >= (fullLength / 3));
         }
 
+        /// <summary>
+        /// Проверяет, соответствут ли значения заданной формуле
+        /// </summary>
+        /// <param name="fullHeight">Высота всего изделия</param>
+        /// <param name="knobHeight">Высота края топорща</param>
+        /// <returns></returns>
         private bool CheckKnobHeight(double fullHeight, double knobHeight)
         {
             return (knobHeight >= (fullHeight - 95));

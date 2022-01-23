@@ -44,6 +44,9 @@
         <Reference Include="Interop.Kompas6Constants3D, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Lib\Interop.Kompas6Constants3D.dll</HintPath>
         </Reference>
+        <Reference Include="Kompas6API7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+          <HintPath>..\..\..\Kompas\SDK\C#\Automation\KompasAPI7.dll</HintPath>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -51,10 +54,12 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Enums\Direction.cs" />
+        <Compile Include="Enums\ExtrusionDirection.cs" />
         <Compile Include="Enums\LineStyle.cs" />
         <Compile Include="Enums\Plane.cs" />
         <Compile Include="Enums\PlaneOffsetDirection.cs" />
         <Compile Include="KompasConnector.cs" />
+        <Compile Include="Modeler.cs" />
         <Compile Include="Models\Point2D.cs" />
         <Compile Include="Models\Point3D.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
