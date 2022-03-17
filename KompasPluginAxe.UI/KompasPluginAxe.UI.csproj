@@ -135,5 +135,10 @@
         <Name>KompasPluginAxe.Core</Name>
       </ProjectReference>
     </ItemGroup>
+    <ItemGroup>
+      <Resource Include="Assets\AxeNew.svg">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Resource>
+    </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

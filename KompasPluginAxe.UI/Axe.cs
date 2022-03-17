@@ -21,8 +21,8 @@ namespace KompasPluginAxe.UI
         private const double MaxBladeLength = 150;
         private const double MinButtLength = 45;
         private const double MaxButtLength = 60;
-        private const double MinKnobHeight = 25;
-        private const double MaxKnobHeight = 70;
+        private const double MinKnobHeight = 55;
+        private const double MaxKnobHeight = 95;
         
         #endregion
 
@@ -33,7 +33,7 @@ namespace KompasPluginAxe.UI
         private double _fullLength = 439;
         private double _bladeLength = 120;
         private double _buttLength = 50;
-        private double _knobHeight = 35;
+        private double _knobHeight = 70;
         
         #endregion
         
@@ -115,13 +115,13 @@ namespace KompasPluginAxe.UI
         public Point2D Slice5Point => new Point2D()
         {
             X = Slice4Point.X + SpaceBetweenSlices,
-            Y = Slice4Point.Y + 12
+            Y = Slice4Point.Y + 12 - 6.682818
         };
 
         public Point2D Slice6Point => new Point2D()
         {
             X = Slice5Point.X + SpaceBetweenSlices,
-            Y = Slice5Point.Y + 28.5
+            Y = BladeHeight - KnobHeight - 22.819118
         };
 
         public double SliceRadius => 6;
@@ -192,11 +192,12 @@ namespace KompasPluginAxe.UI
             get => _fullHeight;
             set
             {
-                if (CheckValue(MinFullHeight, value, MaxFullHeight))
+                if (ValueIsIncorrect(MinFullHeight, value, MaxFullHeight))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
                 _fullHeight = value;
-                if (CheckKnobHeight(value, KnobHeight))
-                    throw new ArgumentException("Значение не соответствует величине K");
+                if (KnobHeightIsIncorrect(value, KnobHeight))
+                    // throw new ArgumentException("Значение не соответствует величине K");
+                    KnobHeight = FullHeight - 90;
                 OnPropertyChanged();
             }
         }
@@ -211,9 +212,9 @@ namespace KompasPluginAxe.UI
             get => _fullLength;
             set
             {
-                if (CheckValue(MinFullLength, value, MaxFullLength))
+                if (ValueIsIncorrect(MinFullLength, value, MaxFullLength))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
-                if (CheckBladeLength(value, BladeLength))
+                if (BladeLengthIsIncorrect(value, BladeLength))
                     throw new ArgumentException("Значение не соответствует величине L1");
                 _fullLength = value;
                 OnPropertyChanged();
@@ -230,9 +231,9 @@ namespace KompasPluginAxe.UI
             get => _bladeLength;
             set
             {
-                if (CheckValue(MinBladeLength, value, MaxBladeLength))
+                if (ValueIsIncorrect(MinBladeLength, value, MaxBladeLength))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
-                if (CheckBladeLength(FullLength, value))
+                if (BladeLengthIsIncorrect(FullLength, value))
                     throw new ArgumentException("Значение не соответствует величине L");
                 _bladeLength = value;
                 OnPropertyChanged();
@@ -248,7 +249,7 @@ namespace KompasPluginAxe.UI
             get => _buttLength;
             set
             {
-                if (CheckValue(MinButtLength, value, MaxButtLength))
+                if (ValueIsIncorrect(MinButtLength, value, MaxButtLength))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
                 _buttLength = value;
                 OnPropertyChanged();
@@ -266,11 +267,12 @@ namespace KompasPluginAxe.UI
             get => _knobHeight;
             set
             {
-                if (CheckValue(MinKnobHeight, value, MaxKnobHeight))
+                if (ValueIsIncorrect(MinKnobHeight, value, MaxKnobHeight))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
-                if (CheckKnobHeight(FullHeight, value))
-                    throw new ArgumentException("Значение не соответствует величине H");
-                _buttLength = value;
+                if (KnobHeightIsIncorrect(FullHeight, value))
+                    // throw new ArgumentException("Значение не соответствует величине H");
+                    FullHeight = 90 + value;
+                _knobHeight = value;
                 OnPropertyChanged();
             }
         }
@@ -283,7 +285,7 @@ namespace KompasPluginAxe.UI
         /// <param name="max"></param>
         /// <returns>true -- недопустимое значение
         /// false -- допустимое</returns>
-        private bool CheckValue(double min, double value, double max)
+        private bool ValueIsIncorrect(double min, double value, double max)
         {
             return ((value > max) || (value < min));
         }
@@ -295,9 +297,9 @@ namespace KompasPluginAxe.UI
         /// <param name="bladeLength">Длина лезвия</param>
         /// <returns>true -- недопустимое значение
         /// false -- допустимое</returns>
-        private bool CheckBladeLength(double fullLength, double bladeLength)
+        private bool BladeLengthIsIncorrect(double fullLength, double bladeLength)
         {
-            return (bladeLength >= (fullLength / 3));
+            return (bladeLength > (fullLength / 3));
         }
 
         /// <summary>
@@ -306,9 +308,9 @@ namespace KompasPluginAxe.UI
         /// <param name="fullHeight">Высота всего изделия</param>
         /// <param name="knobHeight">Высота края топорща</param>
         /// <returns></returns>
-        private bool CheckKnobHeight(double fullHeight, double knobHeight)
+        private bool KnobHeightIsIncorrect(double fullHeight, double knobHeight)
         {
-            return (knobHeight >= (fullHeight - 95));
+            return fullHeight - 90 != knobHeight;
         }
 
         #endregion

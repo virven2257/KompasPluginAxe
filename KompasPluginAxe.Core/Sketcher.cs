@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Principal;
 using Kompas6API5;
 using KompasAPI7;
 using Kompas6Constants;
@@ -11,18 +12,6 @@ namespace KompasPluginAxe.Core
 {
     public static class Sketcher
     {
-        /// <summary>
-        /// Создаёт новый эскиз на заданной плоскости
-        /// </summary>
-        /// <param name="plane">Плоскость</param>
-        /// <param name="document">3D-документ</param>
-        /// <returns>Объект эскиза</returns>
-        public static ksEntity CreateSketch(this Document3D document, Plane plane)
-        {
-            var part = document.GetRootPart();
-            var sketch = part.CreateSketch(plane);
-            return sketch;
-        }
 
         /// <summary>
         /// Получение корневого элемента документа
@@ -54,22 +43,6 @@ namespace KompasPluginAxe.Core
             return part.GetDefaultEntity((short)plane);
         }
 
-        /// <summary>
-        /// Создаёт эскиз на поверхности, на которой лежит заданная точка
-        /// </summary>
-        /// <param name="point">Точка</param>
-        /// <param name="part">Часть</param>
-        /// <returns>Сущность эскиза</returns>
-        public static ksEntity CreateSketchOnSurface(this ksPart part, Point3D point)
-        {
-            var faceCollection = (ksEntityCollection)part.EntityCollection((short)Obj3dType.o3d_face);
-            faceCollection.SelectByPoint(point.X, point.Y, point.Z);
-            var sketch = part.CreateSketchEntity();
-            var sketchDefinition = sketch.GetSketchDefinition();
-            sketchDefinition.SetPlane(faceCollection.First());
-            sketch.Create();
-            return sketch;
-        }
 
         /// <summary>
         /// Возвращает свойства эскиза.
@@ -81,20 +54,6 @@ namespace KompasPluginAxe.Core
             return (ksSketchDefinition)sketch.GetDefinition();
         }
 
-        /// <summary>
-        /// Создаёт эскиз на указанной поверхности
-        /// </summary>
-        /// <param name="plane">Поверхность</param>
-        /// <param name="part">Часть</param>
-        /// <returns></returns>
-        public static ksEntity CreateSketchOnPlane(this ksEntity plane, ksPart part)
-        {
-            var sketch = part.CreateSketchEntity();
-            var sketchDefinition = sketch.GetSketchDefinition();
-            sketchDefinition.SetPlane(plane);
-            sketch.Create();
-            return sketch;
-        }
 
         /// <summary>
         /// Устанавливает плоскость для эскиза.
@@ -126,6 +85,31 @@ namespace KompasPluginAxe.Core
             // Создание эскиза
             sketch.Create();
             return sketch;
+        }
+
+        /// <summary>
+        /// Создаёт эскиз на указанной поверхности
+        /// </summary>
+        /// <param name="plane">Поверхность</param>
+        /// <param name="part">Часть</param>
+        /// <returns></returns>
+        public static ksEntity CreateSketchOnPlane(this ksPart part, ksEntity plane)
+        {
+            var sketch = CreateSketchEntity(part);
+            var sketchDefinition = GetSketchDefinition(sketch);
+            sketchDefinition.SetPlane(plane);
+            sketch.Create();
+            return sketch;
+        }
+
+        public static ksEntity SetSketchPlacement(this ksEntity entity, Point3D origin)
+        {
+            var sketchDefinition = GetSketchDefinition(entity);
+            var surface = (ksSurface)sketchDefinition.GetSurface();
+            var surfaceParam = (ksPlaneParam)surface.GetSurfaceParam();
+            var placement = (ksPlacement)surfaceParam.GetPlacement();
+            placement.SetOrigin(origin.X, origin.Y, origin.Z);
+            return entity;
         }
 
         public static ksEntity CreatePoint3D(this ksPart part, Point3D point, KompasObject kompas)
@@ -194,12 +178,6 @@ namespace KompasPluginAxe.Core
             return document;
         }
         
-        // public static ksDocument2D CreateArcByAngle(this ksDocument2D document,
-        //     Point2D center, double startAngle, double endAngle, LineStyle style)
-        // {
-        //     document.ksArcByAngle()
-        // }
-
         /// <summary>
         /// Создаёт дугу по центру и конечным точкам
         /// </summary>
@@ -235,7 +213,7 @@ namespace KompasPluginAxe.Core
 
             document.ksBezier(isClosed, (int)style);
 
-            ksBezierPointParam pointParam =
+            var pointParam =
                 (ksBezierPointParam)kompas.GetParamStruct(
                     (short)Kompas6Constants.StructType2DEnum.ko_BezierPointParam);
 
@@ -249,74 +227,5 @@ namespace KompasPluginAxe.Core
             document.ksEndObj();
             return document;
         }
-        
-        // public static void RoundRightAngleSimplified(
-        //      Point2D start,
-        //      Point2D anglePoint,
-        //      Point2D end,
-        //      double radius)
-        // {
-        //     var arcStart = anglePoint;
-        //     var arcEnd = anglePoint;
-        //
-        //     var tryPoint = start;
-        //     while (tryPoint.X == anglePoint.X)
-        //     {
-        //         if (tryPoint.Y > anglePoint.Y)
-        //             arcStart.Y -= radius;
-        //         else
-        //         {
-        //             arcStart.Y += radius;
-        //         }
-        //         if 
-        //     }
-        // }
-
-    // public static Point2D[] GetRoundingPoints(
-    //     Point2D start,
-    //     Point2D anglePoint,
-    //     Point2D end,
-    //     double radius)
-    // {
-    //     //Представим отрезки, как векторы
-    //     Point2D vector1 = new Point2D()
-    //     {
-    //         X = anglePoint.X - start.X,
-    //         Y = anglePoint.Y - start.Y
-    //     };
-    //     Point2D vector2 = new Point2D()
-    //     {
-    //         X = end.X - anglePoint.X,
-    //         Y = end.Y - anglePoint.Y
-    //     };
-    //     
-    //     //Проверка на возможность скругления
-    //     var vector1Length =
-    //         Math.Sqrt(
-    //             Math.Pow(vector1.X, 2) +
-    //             Math.Pow(vector1.Y, 2));
-    //     
-    //     var vector2Length =
-    //         Math.Sqrt(
-    //             Math.Pow(vector2.X, 2) +
-    //             Math.Pow(vector2.Y, 2));
-    //
-    //     if ((vector1Length < radius) || (vector2Length < radius))
-    //         throw new Exception("Радиус скругления слишком велик");
-    //     
-    //     //Нахождение угла между отрезками
-    //     var angle =
-    //         Math.Acos(
-    //             (vector1.X * vector2.X) + (vector1.Y * vector2.Y) /
-    //             (Math.Sqrt(
-    //                 (Math.Pow(vector1.X,2) + Math.Pow(vector1.Y,2)) *
-    //                 (Math.Pow(vector2.X,2) + Math.Pow(vector2.Y,2))
-    //                 ))
-    //         );
-    //     if (angle == Math.PI * 0.5d)
-    //     {
-    //         
-    //     }
-    // };
 }
 }

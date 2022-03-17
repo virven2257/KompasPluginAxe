@@ -69,5 +69,22 @@ namespace KompasPluginAxe.Core
             cutEntity.Create();
             return cutEntity;
         }
+
+        public static ksEntity BossLoft(this ksEntity[] sketches,
+            ksPart part)
+        {
+            var loftEntity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_bossLoft);
+            var loftDefinition = (ksBossLoftDefinition)loftEntity.GetDefinition();
+            loftDefinition.chooseType = 2;
+            loftDefinition.SetLoftParam(false, false, true);
+            var sketchCollection = (ksEntityCollection)loftDefinition.Sketchs();
+            foreach (var sketch in sketches)
+            {
+                sketchCollection.Add(sketch);
+            }
+
+            loftEntity.Create();
+            return loftEntity;
+        }
     }
 }

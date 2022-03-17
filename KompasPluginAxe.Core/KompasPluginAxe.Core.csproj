@@ -47,9 +47,6 @@
         <Reference Include="Interop.KompasAPI7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
           <HintPath>..\Lib\Interop.KompasAPI7.dll</HintPath>
         </Reference>
-        <Reference Include="Kompas6API7, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-          <HintPath>..\..\..\Kompas\SDK\C#\Automation\KompasAPI7.dll</HintPath>
-        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
