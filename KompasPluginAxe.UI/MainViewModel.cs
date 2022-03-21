@@ -2,11 +2,13 @@
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using KompasPluginAxe.Core;
 using KompasPluginAxe.UI.Annotations;
 
 namespace KompasPluginAxe.UI
 {
+    /// <summary>
+    /// Визуальная модель окна
+    /// </summary>
     public class MainViewModel : INotifyPropertyChanged
     {
         private ICommand _createAxeCommand;
@@ -17,6 +19,10 @@ namespace KompasPluginAxe.UI
         private readonly AxeCreator _creator =
             new AxeCreator();
 
+        
+        /// <summary>
+        /// Экземпляр топора
+        /// </summary>
         public Axe Axe
         {
             get => _axe;
@@ -26,6 +32,9 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Включены ли элементы интерфейса
+        /// </summary>
         public bool Enabled
         {
             get => _enabled;
@@ -36,17 +45,20 @@ namespace KompasPluginAxe.UI
             }
         }
 
+        /// <summary>
+        /// Команда, вызывающая построение топора
+        /// </summary>
         public ICommand CreateAxeCommand =>
-            _createAxeCommand ??= new RelayCommand(async (i) =>
+            _createAxeCommand ??= new RelayCommand(async task =>
             {
                 Enabled = false;
-                await Task.Run(CreateAxe)
-                    .ContinueWith((t) =>
-                    {
-                        Enabled = true;
-                    });
+                await Task.Run(CreateAxe);
+                Enabled = true;
             });
 
+        /// <summary>
+        /// Построение топора
+        /// </summary>
         public void CreateAxe()
         {
             _creator.Axe = _axe;
@@ -54,6 +66,7 @@ namespace KompasPluginAxe.UI
             _creator.CreateAxe();
         }
 
+        #region  INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
@@ -61,5 +74,6 @@ namespace KompasPluginAxe.UI
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
     }
 }

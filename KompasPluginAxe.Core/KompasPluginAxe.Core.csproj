@@ -58,7 +58,6 @@
         <Compile Include="Enums\ExtrusionDirection.cs" />
         <Compile Include="Enums\LineStyle.cs" />
         <Compile Include="Enums\Plane.cs" />
-        <Compile Include="Enums\PlaneOffsetDirection.cs" />
         <Compile Include="KompasConnector.cs" />
         <Compile Include="Modeler.cs" />
         <Compile Include="Models\Point2D.cs" />

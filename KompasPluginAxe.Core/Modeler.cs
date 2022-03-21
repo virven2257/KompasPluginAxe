@@ -70,6 +70,12 @@ namespace KompasPluginAxe.Core
             return cutEntity;
         }
 
+        /// <summary>
+        /// Создаёт объект по сечениям
+        /// </summary>
+        /// <param name="sketches">Эскизы (сечения)</param>
+        /// <param name="part">Часть</param>
+        /// <returns></returns>
         public static ksEntity BossLoft(this ksEntity[] sketches,
             ksPart part)
         {

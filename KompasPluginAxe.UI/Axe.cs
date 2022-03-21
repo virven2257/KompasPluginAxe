@@ -256,7 +256,6 @@ namespace KompasPluginAxe.UI
             }
         }
 
-        //TODO: значение ни на что не влияет, исправить
         /// <summary>
         /// Высота края топорища
         /// </summary>
@@ -280,9 +279,9 @@ namespace KompasPluginAxe.UI
         /// <summary>
         /// Проверяет, находится ли значение в заданном диапазоне 
         /// </summary>
-        /// <param name="min"></param>
-        /// <param name="value"></param>
-        /// <param name="max"></param>
+        /// <param name="min">Минимальное возможное значение</param>
+        /// <param name="value">Проверяемое значение</param>
+        /// <param name="max">Максимальное возможное значение</param>
         /// <returns>true -- недопустимое значение
         /// false -- допустимое</returns>
         private bool ValueIsIncorrect(double min, double value, double max)
@@ -307,10 +306,11 @@ namespace KompasPluginAxe.UI
         /// </summary>
         /// <param name="fullHeight">Высота всего изделия</param>
         /// <param name="knobHeight">Высота края топорща</param>
-        /// <returns></returns>
+        /// <returns>true -- недопустимое значение
+        /// false -- допустимое</returns>
         private bool KnobHeightIsIncorrect(double fullHeight, double knobHeight)
         {
-            return fullHeight - 90 != knobHeight;
+            return Math.Abs(fullHeight - 90 - knobHeight) > double.MinValue;
         }
 
         #endregion

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Security.Principal;
-using Kompas6API5;
+﻿using Kompas6API5;
 using KompasAPI7;
 using Kompas6Constants;
 using Kompas6Constants3D;
@@ -90,9 +88,9 @@ namespace KompasPluginAxe.Core
         /// <summary>
         /// Создаёт эскиз на указанной поверхности
         /// </summary>
-        /// <param name="plane">Поверхность</param>
         /// <param name="part">Часть</param>
-        /// <returns></returns>
+        /// <param name="plane">Поверхность</param>
+        /// <returns>Сущность эскиза</returns>
         public static ksEntity CreateSketchOnPlane(this ksPart part, ksEntity plane)
         {
             var sketch = CreateSketchEntity(part);
@@ -102,21 +100,18 @@ namespace KompasPluginAxe.Core
             return sketch;
         }
 
-        public static ksEntity SetSketchPlacement(this ksEntity entity, Point3D origin)
-        {
-            var sketchDefinition = GetSketchDefinition(entity);
-            var surface = (ksSurface)sketchDefinition.GetSurface();
-            var surfaceParam = (ksPlaneParam)surface.GetSurfaceParam();
-            var placement = (ksPlacement)surfaceParam.GetPlacement();
-            placement.SetOrigin(origin.X, origin.Y, origin.Z);
-            return entity;
-        }
-
+        /// <summary>
+        /// Ставит трёхмерную точку
+        /// </summary>
+        /// <param name="part">Часть</param>
+        /// <param name="point">Точка</param>
+        /// <param name="kompas">Экземпляр КОМПАС-3D</param>
         public static ksEntity CreatePoint3D(this ksPart part, Point3D point, KompasObject kompas)
         {
             var entity = (ksEntity)part.NewEntity((short)Obj3dType.o3d_point3D);
             entity.Create();
         
+            //Преобразование точки в другой API
             var point3D = (IPoint3D)kompas.TransferInterface(entity, (int)ksAPITypeEnum.ksAPI7Dual, 0);
         
             point3D.X = point.X;
@@ -126,6 +121,13 @@ namespace KompasPluginAxe.Core
             return entity;
         }
         
+        /// <summary>
+        /// Строит плоскость, проходящую через вершину перпендикулярно ребру
+        /// </summary>
+        /// <param name="part">Часть</param>
+        /// <param name="linePoint">Точка, принадлежащая ребру</param>
+        /// <param name="targetPoint">Вершина, принадлежащая плоскости</param>
+        /// <param name="kompas">Экземпляр КОМПАС-3D</param>
         public static ksEntity CreatePerpendicularPlane(this ksPart part, Point3D linePoint, Point3D targetPoint,
             KompasObject kompas)
         {
@@ -169,7 +171,6 @@ namespace KompasPluginAxe.Core
         /// <param name="start">Первая точка</param>
         /// <param name="end">Вторая точка</param>
         /// <param name="style">Стиль линии</param>
-        /// <returns></returns>
         public static ksDocument2D CreateLineSegment(this ksDocument2D document,
             Point2D start, Point2D end, LineStyle style)
         {
@@ -181,14 +182,13 @@ namespace KompasPluginAxe.Core
         /// <summary>
         /// Создаёт дугу по центру и конечным точкам
         /// </summary>
-        /// <param name="document"></param>
-        /// <param name="center"></param>
-        /// <param name="radius"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <param name="direction"></param>
-        /// <param name="style"></param>
-        /// <returns></returns>
+        /// <param name="document">2D-документ (эскиз)</param>
+        /// <param name="center">Центр окружности</param>
+        /// <param name="radius">Радиус</param>
+        /// <param name="start">Первая точка</param>
+        /// <param name="end">Вторая точка</param>
+        /// <param name="direction">Направление</param>
+        /// <param name="style">Стиль линии</param>
         public static ksDocument2D CreateArcByPoint(this ksDocument2D document,
             Point2D center,
             double radius,
@@ -203,6 +203,15 @@ namespace KompasPluginAxe.Core
             return document;
         }
 
+        
+        /// <summary>
+        /// Создаёт кривую Безье
+        /// </summary>
+        /// <param name="document">2D-документ (эскиз)</param>
+        /// <param name="kompas">Экземпляр КОМПАС-3D</param>
+        /// <param name="points">Точки для построения кривой</param>
+        /// <param name="style">Стиль линии</param>
+        /// <param name="closed">Замкнут ли сплайн</param>
         public static ksDocument2D CreateBezier(this ksDocument2D document,
             KompasObject kompas,
             Point2D[] points,
@@ -215,7 +224,7 @@ namespace KompasPluginAxe.Core
 
             var pointParam =
                 (ksBezierPointParam)kompas.GetParamStruct(
-                    (short)Kompas6Constants.StructType2DEnum.ko_BezierPointParam);
+                    (short)StructType2DEnum.ko_BezierPointParam);
 
             foreach (var point in points)
             {

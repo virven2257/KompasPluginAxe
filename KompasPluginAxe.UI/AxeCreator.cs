@@ -51,7 +51,7 @@ namespace KompasPluginAxe.UI
         }
 
         /// <summary>
-        /// Строит эскиз среза рубящей части топора
+        /// Строит рубящую часть топора
         /// </summary>
         private void CreateBladeSlice()
         {
@@ -94,7 +94,7 @@ namespace KompasPluginAxe.UI
         }
 
         /// <summary>
-        /// Строит эскиз режущей части топора сбоку
+        /// Строит эскиз режущей части топора сбоку и корректирует его форму
         /// </summary>
         private void CreateBladeSide()
         {
@@ -104,7 +104,7 @@ namespace KompasPluginAxe.UI
             
             var topPointLeft = new Point2D()
             {
-                X = -(Axe.ButtLength/2),
+                X = -(Axe.ButtLength * 0.5),
                 Y = 0
             };
             var topPointRight = new Point2D()
@@ -328,6 +328,9 @@ namespace KompasPluginAxe.UI
             definition.EndSketchEditing();
         }
 
+         /// <summary>
+         /// Строит топорище
+         /// </summary>
          private void CreateHandle()
          {
             //Координаты плоскостей
@@ -405,7 +408,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice1Width * 0.5
             };
 
-            var s1leftRadiusPoint = new Point2D()
+            var s1LeftRadiusPoint = new Point2D()
             {
                 X = s1TopPointLeftLine.X,
                 Y = s1TopLineLeft.Y
@@ -444,7 +447,7 @@ namespace KompasPluginAxe.UI
             s1Editable.CreateLineSegment(s1TopLineLeft, s1TopLineRight, LineStyle.Main);
             s1Editable.CreateLineSegment(s1TopPointLeftLine, s1MidLeft, LineStyle.Main);
             s1Editable.CreateLineSegment(s1TopPointRightLine, s1MidRight, LineStyle.Main);
-            s1Editable.CreateArcByPoint(s1leftRadiusPoint, Axe.SliceRadius,
+            s1Editable.CreateArcByPoint(s1LeftRadiusPoint, Axe.SliceRadius,
                 s1TopLineLeft, s1TopPointLeftLine,
                 Direction.Clockwise, LineStyle.Main);
             s1Editable.CreateArcByPoint(s1RightRadiusPoint, Axe.SliceRadius,
@@ -489,7 +492,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice1Width * 0.5
             };
 
-            var s2leftRadiusPoint = new Point2D()
+            var s2LeftRadiusPoint = new Point2D()
             {
                 X = s2TopPointLeftLine.X,
                 Y = s2TopLineLeft.Y
@@ -528,7 +531,7 @@ namespace KompasPluginAxe.UI
             s2Editable.CreateLineSegment(s2TopLineLeft, s2TopLineRight, LineStyle.Main);
             s2Editable.CreateLineSegment(s2TopPointLeftLine, s2MidLeft, LineStyle.Main);
             s2Editable.CreateLineSegment(s2TopPointRightLine, s2MidRight, LineStyle.Main);
-            s2Editable.CreateArcByPoint(s2leftRadiusPoint, Axe.SliceRadius,
+            s2Editable.CreateArcByPoint(s2LeftRadiusPoint, Axe.SliceRadius,
                 s2TopLineLeft, s2TopPointLeftLine,
                 Direction.Clockwise, LineStyle.Main);
             s2Editable.CreateArcByPoint(s2RightRadiusPoint, Axe.SliceRadius,
@@ -543,7 +546,7 @@ namespace KompasPluginAxe.UI
 
              #region Slice 3
             var s3Plane = _root.CreatePerpendicularPlane(s4Point3d,s3Point3d, _kompas);
-            var s3Sketch = _root.CreateSketchOnPlane(s3Plane);//.SetSketchPlacement(s3Point3d);
+            var s3Sketch = _root.CreateSketchOnPlane(s3Plane);
             var s3Definition = s3Sketch.GetSketchDefinition();
             var s3Editable = s3Definition.EditSketch();
             var fixHeight3 = 23.820483;
@@ -574,7 +577,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice3Width * 0.5
             };
 
-            var s3leftRadiusPoint = new Point2D()
+            var s3LeftRadiusPoint = new Point2D()
             {
                 X = s3TopPointLeftLine.X,
                 Y = s3TopLineLeft.Y
@@ -613,7 +616,7 @@ namespace KompasPluginAxe.UI
             s3Editable.CreateLineSegment(s3TopLineLeft, s3TopLineRight, LineStyle.Main);
             s3Editable.CreateLineSegment(s3TopPointLeftLine, s3MidLeft, LineStyle.Main);
             s3Editable.CreateLineSegment(s3TopPointRightLine, s3MidRight, LineStyle.Main);
-            s3Editable.CreateArcByPoint(s3leftRadiusPoint, Axe.SliceRadius,
+            s3Editable.CreateArcByPoint(s3LeftRadiusPoint, Axe.SliceRadius,
                 s3TopLineLeft, s3TopPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
             s3Editable.CreateArcByPoint(s3RightRadiusPoint, Axe.SliceRadius,
@@ -628,7 +631,7 @@ namespace KompasPluginAxe.UI
 
              #region Slice 4
             var s4Plane = _root.CreatePerpendicularPlane(s4Point3d,s4Point3d, _kompas);
-            var s4Sketch = _root.CreateSketchOnPlane(s4Plane).SetSketchPlacement(s4Point3d);
+            var s4Sketch = _root.CreateSketchOnPlane(s4Plane);
             var s4Definition = s4Sketch.GetSketchDefinition();
             var s4Editable = s4Definition.EditSketch();
             var fixHeight4 = 23.77121;
@@ -660,7 +663,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice4Width * 0.5
             };
             
-            var s4leftRadiusPoint = new Point2D()
+            var s4LeftRadiusPoint = new Point2D()
             {
                 X = s4TopPointLeftLine.X,
                 Y = s4TopLineLeft.Y
@@ -699,7 +702,7 @@ namespace KompasPluginAxe.UI
             s4Editable.CreateLineSegment(s4TopLineLeft, s4TopLineRight, LineStyle.Main);
             s4Editable.CreateLineSegment(s4TopPointLeftLine, s4MidLeft, LineStyle.Main);
             s4Editable.CreateLineSegment(s4TopPointRightLine, s4MidRight, LineStyle.Main);
-            s4Editable.CreateArcByPoint(s4leftRadiusPoint, Axe.SliceRadius,
+            s4Editable.CreateArcByPoint(s4LeftRadiusPoint, Axe.SliceRadius,
                 s4TopLineLeft, s4TopPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
             s4Editable.CreateArcByPoint(s4RightRadiusPoint, Axe.SliceRadius,
@@ -712,10 +715,9 @@ namespace KompasPluginAxe.UI
 
              #endregion
              
-             
              #region Slice 5
             var s5Plane = _root.CreatePerpendicularPlane(s5Point3d,s5Point3d, _kompas);
-            var s5Sketch = _root.CreateSketchOnPlane(s5Plane).SetSketchPlacement(s5Point3d);;
+            var s5Sketch = _root.CreateSketchOnPlane(s5Plane);
             var s5Definition = s5Sketch.GetSketchDefinition();
             var s5Editable = s5Definition.EditSketch();
             var fixHeight5 = 27.510067;
@@ -747,7 +749,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice5Width * 0.5
             };
             
-            var s5leftRadiusPoint = new Point2D()
+            var s5LeftRadiusPoint = new Point2D()
             {
                 X = s5TopPointLeftLine.X,
                 Y = s5TopLineLeft.Y
@@ -786,7 +788,7 @@ namespace KompasPluginAxe.UI
             s5Editable.CreateLineSegment(s5TopLineLeft, s5TopLineRight, LineStyle.Main);
             s5Editable.CreateLineSegment(s5TopPointLeftLine, s5MidLeft, LineStyle.Main);
             s5Editable.CreateLineSegment(s5TopPointRightLine, s5MidRight, LineStyle.Main);
-            s5Editable.CreateArcByPoint(s5leftRadiusPoint, Axe.SliceRadius,
+            s5Editable.CreateArcByPoint(s5LeftRadiusPoint, Axe.SliceRadius,
                 s5TopLineLeft, s5TopPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
             s5Editable.CreateArcByPoint(s5RightRadiusPoint, Axe.SliceRadius,
@@ -801,7 +803,7 @@ namespace KompasPluginAxe.UI
              
              #region Slice 6
             var s6Plane = _root.CreatePerpendicularPlane(s6Point3d, s6Point3d, _kompas);
-            var s6Sketch = _root.CreateSketchOnPlane(s6Plane).SetSketchPlacement(s6Point3d);
+            var s6Sketch = _root.CreateSketchOnPlane(s6Plane);
             var s6Definition = s6Sketch.GetSketchDefinition();
             var s6Editable = s6Definition.EditSketch();
             var fixHeight6 = 98.235407;
@@ -833,7 +835,7 @@ namespace KompasPluginAxe.UI
                 Y = Axe.Slice6Width * 0.5
             };
             
-            var s6leftRadiusPoint = new Point2D()
+            var s6LeftRadiusPoint = new Point2D()
             {
                 X = s6TopPointLeftLine.X,
                 Y = s6TopLineLeft.Y
@@ -872,7 +874,7 @@ namespace KompasPluginAxe.UI
             s6Editable.CreateLineSegment(s6TopLineLeft, s6TopLineRight, LineStyle.Main);
             s6Editable.CreateLineSegment(s6TopPointLeftLine, s6MidLeft, LineStyle.Main);
             s6Editable.CreateLineSegment(s6TopPointRightLine, s6MidRight, LineStyle.Main);
-            s6Editable.CreateArcByPoint(s6leftRadiusPoint, Axe.SliceRadius,
+            s6Editable.CreateArcByPoint(s6LeftRadiusPoint, Axe.SliceRadius,
                 s6TopLineLeft, s6TopPointLeftLine,
                 Direction.Counterclockwise, LineStyle.Main);
             s6Editable.CreateArcByPoint(s6RightRadiusPoint, Axe.SliceRadius,
@@ -888,16 +890,5 @@ namespace KompasPluginAxe.UI
              var sketches = new[] { s1Sketch, s2Sketch, s3Sketch, s4Sketch, s5Sketch, s6Sketch };
              sketches.BossLoft(_root);
          }
-
-         // private Point3D InvertBasis(Point3D origin)
-         // {
-         //     var newPoint = new Point3D()
-         //     {
-         //         X = origin.Y,
-         //         Z = origin.X,
-         //         Y = origin.Z
-         //     };
-         //     return newPoint;
-         // }
     }
 }

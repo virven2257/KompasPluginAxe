@@ -57,7 +57,7 @@
       <Label Grid.Column="0" Grid.Row="5"
              Content="Высота края топорища K" />
         
-      <TextBox Grid.Row="1" Grid.Column="2" MaxHeight="25"  Margin="3"
+      <TextBox Grid.Row="1" Grid.Column="1" MaxHeight="25"  Margin="3"
                IsEnabled="{Binding Enabled}">
         <TextBox.Text>
           <Binding Path="Axe.FullHeight" Mode="TwoWay" >
@@ -67,7 +67,7 @@
           </Binding>
         </TextBox.Text>
       </TextBox>
-      <TextBox Grid.Row="2" Grid.Column="2" MaxHeight="25"  Margin="3"
+      <TextBox Grid.Row="2" Grid.Column="1" MaxHeight="25"  Margin="3"
                IsEnabled="{Binding Enabled}">
         <TextBox.Text>
           <Binding Path="Axe.FullLength" Mode="TwoWay" >
@@ -77,7 +77,7 @@
           </Binding>
         </TextBox.Text>
       </TextBox>
-      <TextBox Grid.Row="3" Grid.Column="2" MaxHeight="25"  Margin="3"
+      <TextBox Grid.Row="3" Grid.Column="1" MaxHeight="25"  Margin="3"
                IsEnabled="{Binding Enabled}">
         <TextBox.Text>
           <Binding Path="Axe.BladeLength" Mode="TwoWay" >
@@ -87,7 +87,7 @@
           </Binding>
         </TextBox.Text>
       </TextBox>
-      <TextBox Grid.Row="4" Grid.Column="2" MaxHeight="25"  Margin="3"
+      <TextBox Grid.Row="4" Grid.Column="1" MaxHeight="25"  Margin="3"
                IsEnabled="{Binding Enabled}">
         <TextBox.Text>
           <Binding Path="Axe.ButtLength" Mode="TwoWay" >
@@ -97,7 +97,7 @@
           </Binding>
         </TextBox.Text>
       </TextBox>
-      <TextBox Grid.Row="5" Grid.Column="2" MaxHeight="25"  Margin="3"
+      <TextBox Grid.Row="5" Grid.Column="1" MaxHeight="25"  Margin="3"
                IsEnabled="{Binding Enabled}">
         <TextBox.Text>
           <Binding Path="Axe.KnobHeight" Mode="TwoWay" >
@@ -108,7 +108,7 @@
         </TextBox.Text>
       </TextBox>
       
-      <Button Grid.Row="6" Grid.ColumnSpan="2" 
+      <Button Grid.Column = "0" Grid.Row="6" Grid.ColumnSpan="2" 
               Margin="2"
               Content="Построить" 
               Command="{Binding CreateAxeCommand}"

@@ -4,10 +4,10 @@ using Kompas6API5;
 
 namespace KompasPluginAxe.Core
 {
-            /// <summary>
+    /// <summary>
     /// Реализует создание экземпляра КОМПАС-3D и подключение к нему
     /// </summary>
-            public static class KompasConnector
+    public static class KompasConnector
     {
         /// <summary>
         /// Данная строка передаётся в метод GetActiveObject() объекта
