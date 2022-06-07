@@ -46,17 +46,17 @@ namespace KompasPluginAxe.UI
         //Топор (основание)
         #region Butt
 
-        public double ButtHeight => 72;
+        public readonly double ButtHeight = 72;
 
-        public double ButtWidth => 27;
+        public readonly double ButtWidth = 27;
 
-        public double SpaceAboveEye => 9;
+        public readonly double SpaceAboveEye = 9;
 
-        public double SpaceAroundEye => 3;
+        public readonly double SpaceAroundEye = 3;
 
-        public double SpaceBelowEye => 16;
+        public readonly double SpaceBelowEye = 16;
 
-        public double ButtRadius = 6;
+        public readonly double ButtRadius = 6;
         
         #endregion
 
@@ -77,48 +77,45 @@ namespace KompasPluginAxe.UI
         //Рукоять
         #region Handle
 
-        public double HandleTip => 3;
+        public double HandleTip = 3;
         
-        public double HandleLength => 
+        public double HandleLength =>
             FullLength + HandleTip - (BladeLength - ButtLength)/2;
 
         public double SpaceBetweenSlices =>
             (FullLength - (FullLength / 2.5)) / 2;
-
-        public double HeightKnobSpaces =>
-            KnobHeight / 4;
         
-        public Point2D Slice1Point => new Point2D()
+        public Point2D Slice1Point => new()
         {
             X = -(ButtLength/2 + HandleTip),
             Y = -(ButtHeight - SpaceAboveEye)
         };
 
-        public Point2D Slice2Point => new Point2D()
+        public Point2D Slice2Point => new()
         {
             X = ButtLength / 2 + 10,
             Y = -(ButtHeight - SpaceAboveEye)
         };
 
-        public Point2D Slice3Point => new Point2D()
+        public Point2D Slice3Point => new()
         {
             X = (HandleLength / 3.5) + Slice1Point.X,
             Y = Slice2Point.Y
         };
 
-        public Point2D Slice4Point => new Point2D()
+        public Point2D Slice4Point => new()
         {
             X = (HandleLength / 2.5) + Slice1Point.X,
             Y = Slice3Point.Y + 12
         };
 
-        public Point2D Slice5Point => new Point2D()
+        public Point2D Slice5Point => new()
         {
             X = Slice4Point.X + SpaceBetweenSlices,
             Y = Slice4Point.Y + 12 - 6.682818
         };
 
-        public Point2D Slice6Point => new Point2D()
+        public Point2D Slice6Point => new()
         {
             X = Slice5Point.X + SpaceBetweenSlices,
             Y = BladeHeight - KnobHeight - 22.819118
@@ -192,11 +189,12 @@ namespace KompasPluginAxe.UI
             get => _fullHeight;
             set
             {
+                if (value == _fullHeight)
+                    return;
                 if (ValueIsIncorrect(MinFullHeight, value, MaxFullHeight))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
                 _fullHeight = value;
                 if (KnobHeightIsIncorrect(value, KnobHeight))
-                    // throw new ArgumentException("Значение не соответствует величине K");
                     KnobHeight = FullHeight - 90;
                 OnPropertyChanged();
             }
@@ -266,10 +264,11 @@ namespace KompasPluginAxe.UI
             get => _knobHeight;
             set
             {
+                if (value == _knobHeight)
+                    return;
                 if (ValueIsIncorrect(MinKnobHeight, value, MaxKnobHeight))
                     throw new ArgumentException("Значение находится вне допустимого диапазона");
                 if (KnobHeightIsIncorrect(FullHeight, value))
-                    // throw new ArgumentException("Значение не соответствует величине H");
                     FullHeight = 90 + value;
                 _knobHeight = value;
                 OnPropertyChanged();
